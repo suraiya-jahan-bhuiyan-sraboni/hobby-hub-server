@@ -25,6 +25,12 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
 
+        app.get('/groups', async (req, res) => {
+            const cursor = client.db('HobbyHubDb').collection('groups').find();
+            const groups = await cursor.toArray();
+            res.send(groups);
+        });
+        
         app.post('/createGroup', async (req, res) => {
             const group = req.body;
             //console.log(group);
