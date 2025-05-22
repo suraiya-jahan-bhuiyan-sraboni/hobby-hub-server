@@ -48,6 +48,12 @@ async function run() {
             const group = await client.db('HobbyHubDb').collection('groups').findOne(query);
             res.send(group);
         });
+        app.delete('/groups/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await client.db('HobbyHubDb').collection('groups').deleteOne(query);
+            res.send(result);
+        });
         
 
         app.post('/createGroup', async (req, res) => {
