@@ -1,12 +1,14 @@
-const express = require('express')
-const cors = require('cors')
-const app = express()
-const port = 3000
+const express = require('express');
+const cors = require('cors');
+require('dotenv').config();
 
-app.use(cors())
-app.use(express.json())
+const app = express();
+const port = process.env.PORT || 3000;
 
-require('dotenv').config()
+app.use(cors());
+app.use(express.json());
+
+
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.lln6rsh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
@@ -23,7 +25,8 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
-        await client.connect();
+        await
+        client.connect();
 
         app.get('/groups', async (req, res) => {
 
@@ -54,18 +57,18 @@ async function run() {
             const result = await client.db('HobbyHubDb').collection('groups').deleteOne(query);
             res.send(result);
         });
-        
+
 
         app.post('/createGroup', async (req, res) => {
             const group = req.body;
             //console.log(group);
             const result = await client.db('HobbyHubDb').collection('groups').insertOne(group);
             res.send(result);
-           
+
         });
         app.put('/updateGroup/:id', async (req, res) => {
             const id = req.params.id;
-            const {name,category, description,maxMembers,startDate, imageUrl,userName,userEmail} = req.body;
+            const { name, category, description, maxMembers, startDate, imageUrl, userName, userEmail } = req.body;
             const query = { _id: new ObjectId(id) };
             const options = { upsert: true };
             const updateDoc = {
@@ -83,7 +86,7 @@ async function run() {
             const result = await client.db('HobbyHubDb').collection('groups').updateOne(query, updateDoc, options);
             res.send(result);
         });
-
+        
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
@@ -94,11 +97,9 @@ async function run() {
 }
 run().catch(console.dir);
 
-
-
 app.get('/', (req, res) => {
     res.send('Hello World!')
-})
+});
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
