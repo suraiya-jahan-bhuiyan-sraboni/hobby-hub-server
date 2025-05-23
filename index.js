@@ -11,8 +11,8 @@ app.use(express.json());
 
 
 
-const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.lln6rsh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-
+//const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.lln6rsh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+const uri = process.env.MONGO_URI;
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
     serverApi: {
@@ -30,10 +30,9 @@ async function run() {
         app.get('/groups', async (req, res) => {
 
             const email = req.query.email;
-            const collection = client.db('HobbyHubDb').collection('groups');
-
             try {
                 let groups;
+                const collection = client.db('HobbyHubDb').collection('groups');
                 if (email) {
                     groups = await collection.find({ userEmail: email }).toArray();
                 } else {
