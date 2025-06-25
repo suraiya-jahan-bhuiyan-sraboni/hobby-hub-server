@@ -1,6 +1,9 @@
 
 # 📘 HobbyHub Backend API Documentation
 
+**Live Site:** https://hobby-hub-f64a3.web.app/
+
+
 This is the HobbyHub backend.It is a RESTful API built with **Express.js** and **MongoDB Atlas**. It powers the HobbyHub application by managing hobby group data, including creation, retrieval, updating, and deletion of groups.
 
 ---
